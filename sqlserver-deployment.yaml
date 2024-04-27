@@ -12,6 +12,10 @@ spec:
       labels:
         component: sqlserver
     spec:
+      volumes:
+        - name: mssql-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
       containers:
         - name: sqlserver
           image: mcr.microsoft.com/mssql/server:2022-latest
@@ -26,12 +30,9 @@ spec:
           ports:
             - containerPort: 1433
           volumeMounts:
-            - name: data-mssql
+            - name: mssql-storage
               mountPath: /var/opt/mssql/data
               subPath: mssql
-      volumes:
-        - name: mssql-storage
-          persistentVolumeClaim:
-            claimName: database-persistent-volume-claim
+
 
              
