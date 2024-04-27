@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviestore-api
+  labels:
+    app: moviestore-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moviestore-api
+  template:
+    metadata:
+      labels:
+        app: moviestore-api
+    spec:
+      containers:
+        - name: moviestore-api
+          image: ranyqb/moviestoreapi
+          ports:
+            - containerPort: 8080
+            - containerPort: 8081
+          resources:
+            requests:
+              cpu: 200m
+              memory: 300Mi
+            limits:
+              memory: 400Mi
+          volumeMounts:
+            - name: data-mssql
+              mountPath: /var/opt/mssql/data
+      volumes:
+        - name: data-mssql
+          hostPath:
+            path: ./data-mssql
+

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: sqlserver
+  template:
+    metadata:
+      labels:
+        component: sqlserver
+    spec:
+      containers:
+        - name: sqlserver
+          image: mcr.microsoft.com/mssql/server:2022-latest
+          env:
+            - name: MSSQL_SA_PASSWORD
+              value: "P@ssword123"
+            - name: ACCEPT_EULA
+              value: "Y"
+          ports:
+            - containerPort: 1433
+          volumeMounts:
+            - name: data-mssql
+              mountPath: /var/opt/mssql/data
+      volumes:
+        - name: data-mssql
+          hostPath:
+            path: ./data-mssql

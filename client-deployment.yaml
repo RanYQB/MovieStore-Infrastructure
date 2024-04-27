@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviestore-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: moviestore-client
+          image: ranyqb/moviestoreclient
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: client-files
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: client-files
+          emptyDir: {}
