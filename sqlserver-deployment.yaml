@@ -17,7 +17,10 @@ spec:
           image: mcr.microsoft.com/mssql/server:2022-latest
           env:
             - name: MSSQL_SA_PASSWORD
-              value: "P@ssword123"
+              valueFrom:
+                secretKeyRef:
+                  name: mssqlpassword
+                  key: MSSQLPASSWORD
             - name: ACCEPT_EULA
               value: "Y"
           ports:
@@ -25,7 +28,10 @@ spec:
           volumeMounts:
             - name: data-mssql
               mountPath: /var/opt/mssql/data
+              subPath: mssql
       volumes:
-        - name: data-mssql
-          hostPath:
-            path: ./data-mssql
+        - name: mssql-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+
+             
