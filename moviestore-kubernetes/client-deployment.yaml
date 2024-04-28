@@ -6,17 +6,17 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      component: web
+      app: moviestore-client
   template:
     metadata:
       labels:
-        component: web
+        app: moviestore-client
     spec:
       containers:
         - name: moviestore-client
-          image: ranyqb/moviestoreclient
+          image: ranyqb/moviestoreclient:2.0.0
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           volumeMounts:
             - name: client-files
               mountPath: /usr/share/nginx/html
