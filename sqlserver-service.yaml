@@ -5,9 +5,8 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    component: sqlserver
+    app: sqlserver
   ports:
     - protocol: TCP
       port: 1433
       targetPort: 1433
-      
